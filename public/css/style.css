@@ -1,0 +1,113 @@
+body{
+    font-family: 'Mate', serif !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    
+}
+.container{
+    flex: 1;
+}
+
+.navbar{
+    height: 5rem;
+color: white !important;
+text-align: center;
+}
+.nav-link{
+    color: #222222 !important;
+}
+
+.searchingwin{
+  margin: auto ;
+}
+/* 
+FOOTER */
+.f-info-links a{
+    text-decoration: none;
+    color: #222222;
+    margin-right: 1.2rem;
+}
+.f-info-links a:hover{
+    text-decoration: underline;
+}
+.f-info-links,
+.f-info-brand,
+.f-info-socials{
+    width:100%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.f-info-socials i{
+    margin-right: 1rem;
+    font-size: 1.4rem;
+}
+.f-info{
+    height: 8rem;
+    background-color: rgb(170, 169, 169);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: space-evenly;
+   
+}
+/* card */
+.card{
+
+    border: none  !important;
+
+}
+.card listing-card{
+    
+    border: none  !important;
+    margin-bottom: 2rem;
+}
+.card-img-top{
+    border-radius: 1rem !important;
+    width: 100% !important;
+    object-fit: cover !important;
+
+}
+.card-body{
+    padding: 0 !important;
+}
+.card text{
+  font-weight: 400;
+  font-style: bold !important ;
+}
+
+/* Card Effect */
+.card-img-overlay{
+    opacity: 0;
+}
+.card-img-overlay:hover{
+    opacity: 0.2;
+    background-color: white;
+}
+.add-btn{
+    border: none !important;
+    /* background-color: rgb(144, 169, 238) !important; */
+}
+
+/* Show-page */
+.show-img{
+    height:40vh;
+    
+}
+.btnns a,
+.btnns button {
+   margin-top: 0.5rem;
+   margin-bottom: 0.5rem;
+  margin-right: 1rem; 
+}
+.btnns button:hover{
+    background-color: red;
+}
+
+#map{
+  
+     height: 300px;
+    width:800px ;
+}

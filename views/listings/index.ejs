@@ -1,0 +1,162 @@
+<% layout("/layouts/boilerplate") %>
+<%- layout("/layouts/boilerplate") -%> 
+<style>
+  #filters {
+    margin-top: 1.5rem;
+    margin-bottom: 0.6rem;
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+  }
+  .filter {
+    text-align: center;
+    margin-right: 2rem;
+    opacity: 0.8;
+  }
+  .range {
+    text-align: center;
+    height: 2.4rem;
+    padding: 0.1rem!important;
+    margin-left: 1rem;
+    border-radius: 20px;
+    border-color: black;
+    width: 150px; /* Adjust the width as needed */
+  }
+
+  /* Add styles for active filters */
+  .filter.active {
+    background-color: #28a745; /* Green color for active filters */
+    color: #fff; /* White text for active filters */
+  }
+
+  /* Add styles for the switch label */
+  .form-check-label {
+    margin-bottom: 0;
+  }
+  .filter:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+  .tax-info {
+    display: none;
+  }
+  .switch {
+    height: 2.4rem;
+    border: solid black 0.1rem;
+    border-radius: 1.3rem;
+    padding: 0.5rem;
+    align-items: center;
+    margin-left: 1.8rem;
+  }
+  .range{
+    height: 2.4rem;
+    padding:0.1rem!important;
+    margin-left: 1rem;
+    border-radius: 20px;
+    border-color: black;
+  }
+</style>
+<div id="filters">
+  <div class="filter">
+    <i class="fa-solid fa-fire fa-xl"></i><p>Trending</p>
+  </div>
+ 
+  <div class="filter">
+    <i class="fa-solid fa-mountain fa-xl"></i><p>Mountains</p>
+  </div>
+  <div class="filter">
+    <i class="fa-solid fa-snowflake fa-xl"></i><p>Arctic</p>
+  </div>
+  <div class="filter">
+    <i class="fa-solid fa-tent fa-xl"></i><p>Camp</p>
+  </div>
+  <div class="filter">
+    <i class="fa-solid fa-cow fa-xl"></i><p>Countryside</p>
+  </div>
+  <div class="filter">
+    <i class="fa-brands fa-fort-awesome"></i><p>Villa</p>
+  </div>
+  <div class="switch">
+    <div class="form-check-reverse form-switch">
+      <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+      <label class="form-check-label" for="flexSwitchCheckDefault">Amount with taxes</label>
+    </div>
+  </div>
+   
+    <p style="text-align: center; margin-left: 1.2rem;">Price Range:</p>
+    <select name="priceRange" class="range form-select"> <!-- Add the form-select class for Bootstrap styling -->
+      <option value="0-6000">All</option>
+      <option value="1000-1500">₹1000 - ₹1500</option>
+      <option value="1500-2000">₹1500 - ₹2000</option>
+      <option value="2000-3000">₹2000 - ₹3000</option>
+      <!-- Add more options as needed -->
+    </select>
+</div>
+
+
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1" id="listings-container">
+  <% for(let listing of alllist){ %> 
+    <a href="/listings/<%=listing._id %>" style="text-decoration: none;">
+      <div class="card listing-card" data-price="<%= listing.price %>">
+        <img src="<%=listing.image.url %>" class="card-img-top" alt="listing_image" style="height: 20rem;"> 
+        <div class="card-img-overlay"></div>
+        <div class="card-body">
+          <p class="card-text">
+            <b><%=listing.title %></b><br>  
+            &#8377; <%= parseFloat(listing.price).toLocaleString("en-IN") %> / night
+            <i class="tax-info">  &nbsp; +18% GST</i>
+          </p>
+        </div>
+      </div>
+      <br>
+    </a>
+  <% } %>
+</div>
+
+<script>
+  let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+  let listingsContainer = document.getElementById("listings-container");
+  let listingCards = Array.from(document.querySelectorAll('.listing-card'));
+
+  taxSwitch.addEventListener("click", () => {
+    let taxInfo = document.getElementsByClassName("tax-info");
+    for (info of taxInfo) {
+      if (info.style.display != "inline") {
+        info.style.display = "inline";
+      } else {
+        info.style.display = "none";
+      }
+    }
+  });
+
+  function hideAllListings() {
+    listingCards.forEach(card => {
+      card.style.opacity = '0.4';
+    
+    });
+  }
+
+  function showListingsByPriceRange(minPrice, maxPrice) {
+    hideAllListings();
+    listingCards.forEach(card => {
+      const cardPrice = parseFloat(card.getAttribute('data-price'));
+      if ((minPrice === null || cardPrice >= minPrice) && (maxPrice === null || cardPrice <= maxPrice)) {
+        card.style.opacity = '1';
+       
+      }
+    });
+  }
+
+  const priceRangeSelect = document.querySelector('select[name="priceRange"]');
+  priceRangeSelect.addEventListener('change', updateListings);
+
+  function updateListings() {
+    const selectedPriceRange = priceRangeSelect.value;
+    const [minPrice, maxPrice] = selectedPriceRange.split('-').map(Number);
+    showListingsByPriceRange(minPrice, maxPrice);
+  }
+
+  showListingsByPriceRange(null, null);
+</script>
+
+
