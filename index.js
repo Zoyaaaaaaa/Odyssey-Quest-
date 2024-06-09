@@ -20,7 +20,7 @@ const reviews=require("./routes/review.js");
 const userRouter=require("./routes/user.js");
 const { error } = require('console');
 const dbUrl=process.env.ATLASDB_URL; 
-// const MONGO_URL="mongodb://127.0.0.1:27017/travel";
+const MONGO_URL="mongodb://127.0.0.1:27017/travel";
 main()
 .then(()=>{
 console.log("MongoDb is successfully connected");
@@ -29,8 +29,8 @@ console.log("MongoDb is successfully connected");
 console.log(err);
 });
 async function main(){
-    // await mongoose.connect(MONGO_URL);
-    await mongoose.connect(dbUrl);
+    //  await mongoose.connect(MONGO_URL);
+   await mongoose.connect(dbUrl);
 }
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"views"));
