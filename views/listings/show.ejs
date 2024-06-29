@@ -1,120 +1,109 @@
+
 <%- layout("/layouts/boilerplate") -%>
 <script>
-const mapToken="<%=process.env.MAP_TOKEN%>";
-const coordinates = JSON.parse("<%-JSON.stringify(listing.geometry.coordinates) %>");
+  const mapToken = "<%=process.env.MAP_TOKEN%>";
+  const coordinates = JSON.parse("<%-JSON.stringify(listing.geometry.coordinates) %>");
 </script>
-<div class="row mt-3">
-    <div class="col-8 offset-2">
 
-   
-   <h3> <%=listing.title%> </h3>
-   <div class="card">
-    <img src="<%=listing.image.url%>" class="card-img-top show-img" alt="listing_image">
-    <div class="card-body">
-        <p class="card-text">
-         Owner: <%=listing.owner.username%><br> </p>
-         <p class="card-text"> <%=listing.description%><br></p>
-         <p class="card-text"> &#8377; <%= parseFloat(listing.price).toLocaleString("en-IN") %> / night </p>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="card">
+        <img src="<%=listing.image.url%>" class="card-img-top" alt="listing_image">
+        <div class="card-body">
+          <h3 class="card-title"><%=listing.title%></h3>
+          <p class="card-text">Owner: <%=listing.owner.username%></p>
+          <p class="card-text"><%=listing.description%></p>
+          <p class="card-text">&#8377; <%= parseFloat(listing.price).toLocaleString("en-IN") %> / night</p>
+          <p class="card-text">Location: <%=listing.location%>, <%=listing.country%></p>
+          
+          <% if(curruser && curruser._id.equals(listing.owner._id)) { %>
+            <div class="btn-group mt-3">
+              <a href="/listings/<%=listing._id%>/edit" class="btn btn-dark me-2">Edit</a>
+              <a href="/listings" class="btn btn-dark me-2">Back</a>
+              <form method="POST" action="/listings/<%=listing._id%>?_method=DELETE">
+                <button class="btn btn-dark">Delete</button>
+              </form>
+            </div>
+          <% } %>
+        </div>
+      </div>
 
-         <p class="card-text"> <%=listing.location%></p>
-         <p class="card-text"> <%=listing.country%> <br></p>
-      
-        
-    </div>
-   </div>
-   <% if(curruser && curruser._id.equals(listing.owner._id)) {%>
- 
-  <div class="btnns">
-  <a href="/listings/<%=listing._id%>/edit " class="btn btn-dark">Edit</a> 
-    <a href="/listings" class="btn btn-dark">Back</a>
-    <form method="POST" action="/listings/<%=listing._id%>?_method=DELETE" >
-        <button class="btn btn-dark">Delete</button>
-    </form>
-    
-  </div>
-  <%}%>
-  <hr>
-  <% if(curruser) {%>
-  <div class="col-8 offset-2">
-  <h4>Leave a Review</h4>
-  <form class="mb-3" method="POST" action="/listings/<%=listing._id%>/reviews" novalidate="needs-validation">
+      <hr>
 
+      <% if(curruser) { %>
+        <div class="mt-4">
+          <h4>Leave a Review</h4>
+          <form method="POST" action="/listings/<%=listing._id%>/reviews" class="mb-3 needs-validation" novalidate>
+            <div class="mb-3">
+              <label for="rating" class="form-label">Rating</label>
+              <fieldset class="starability-heartbeat">
 
-      <!-- <input type="range" min="1" max="5" id="rating" name="review[rating]" required > -->
-      <div class="mb-3 mt-3">
-      <label for="rating" class="form-label">Rating</label>
-  
-  <fieldset class="starability-heartbeat">
+                <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." />
+                <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                <label for="first-rate1" title="Terrible">1 star</label>
+                <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                <label for="first-rate2" title="Not good">2 stars</label>
+                <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                <label for="first-rate3" title="Average">3 stars</label>
+                <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                <label for="first-rate4" title="Very good">4 stars</label>
+                <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                <label for="first-rate5" title="Amazing">5 stars</label>
+              </fieldset>
+            </div>
+            <div class="mb-3">
+              <label for="comment" class="form-label">Comment</label>
+              <textarea name="review[comment]" id="comment" class="form-control" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-outline-dark">Submit Review</button>
+          </form>
+        </div>
+      <% } %>
 
-    <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." />
-    <input type="radio" id="first-rate1" name="review[rating]" value="1" />
-    <label for="first-rate1" title="Terrible">1 star</label>
-    <input type="radio" id="first-rate2" name="review[rating]" value="2" />
-    <label for="first-rate2" title="Not good">2 stars</label>
-    <input type="radio" id="first-rate3" name="review[rating]" value="3" />
-    <label for="first-rate3" title="Average">3 stars</label>
-    <input type="radio" id="first-rate4" name="review[rating]" value="4" />
-    <label for="first-rate4" title="Very good">4 stars</label>
-    <input type="radio" id="first-rate5" name="review[rating]" value="5" />
-    <label for="first-rate5" title="Amazing">5 stars</label>
-  </fieldset>
-</div>
-  <div class="mb-3 mt-3">
-    <label for="comment" class="form-label">Comment</label>
-   <textarea name="review[comment]" id="comment" cols="50" rows="5" class="form-control" required></textarea>
-  </div>
-  <button class=" btn btn-outline-dark">Submit</button>
-</form>
-</div>
-</form>
-<hr>
-<%}%>
-<p><b>All reviews</b></p>
-<ul>
-  <div class="row ">
-  <% listing.reviews.forEach(function(review) { %>
-   
-    <div class="card col-5  ms-3 mb-3 ">
-      <div class=card-body>
-        <p class="card-title"><%=curruser.username%></p>
-        <p class="starability-result" data-rating="<%=review.rating%>">    </p>
-        <p class="card-text"><%=review.comment%></p>
-  
-        <form class="mb-3" method="POST" action="/listings/<%=listing._id%>/reviews/<%=review._id%>?_method=DELETE">
-        <button class="btn btn-dark mb-3">Delete</button>
-        </form>
+      <hr>
+
+      <div class="mb-4">
+        <h4>All Reviews</h4>
+        <div class="row row-cols-1 row-cols-md-2 g-3">
+          <% listing.reviews.forEach(function(review) { %>
+            <div class="col mb-3">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title"><%=curruser.username%></h5>
+                  <div class="starability-result" data-rating="<%=review.rating%>"></div>
+                  <p class="card-text"><%=review.comment%></p>
+                  <% if(curruser && curruser._id.equals(listing.owner._id)) { %>
+                    <form method="POST" action="/listings/<%=listing._id%>/reviews/<%=review._id%>?_method=DELETE">
+                      <button class="btn btn-dark">Delete</button>
+                    </form>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      </div>
+
+      <div class="mt-5 mb-4">
+        <h3>Location on Map</h3>
+        <div id="map" style="height: 400px;"></div>
       </div>
     </div>
+  </div>
+</div>
 
-  <% }); %>
-</ul>
-</div>
-<div  class="col-8 offset-2 mb-3">
-  <h3>Where you can find it</h3>
-  <div id="map"></div>
-
-</div>
-</div>
 <script>
-
-
   mapboxgl.accessToken = mapToken;
-  console.log(mapToken);
-  mapboxgl.accessToken = mapToken;
-const map = new mapboxgl.Map({
-    container: 'map', 
-    style: 'mapbox://styles/mapbox/streets-v12', 
+  const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v12',
     center: coordinates,
-    zoom: 9 // starting zoom
-});
-console.log(coordinates);
-const marker2 = new mapboxgl.Marker({ color: 'black', rotation: 0 })
-.setLngLat(coordinates)
-.setPopup(
-new mapboxgl.Popup({offset:25}).setHTML(`<p>Exact location will be provided after booking</p>`
-)
-)
-.addTo(map);
+    zoom: 9
+  });
+
+  const marker = new mapboxgl.Marker({ color: 'black', rotation: 0 })
+    .setLngLat(coordinates)
+    .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(`<p>Exact location will be provided after booking</p>`))
+    .addTo(map);
 </script>
-
-

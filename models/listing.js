@@ -42,12 +42,12 @@ const listingSchema = new Schema({
       type: [Number],
       required: true
     },
+  },
+
+  category:{
+    type:String,
+    enum:["mountains","arctic","countryside","trending"]
   }
-  
-  // category:{
-  //   type:String,
-  //   enum:["mountains","arctic","countryside"]
-  // }
 });
 
 listingSchema.statics.findByTitle = function (title) {

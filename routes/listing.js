@@ -101,5 +101,16 @@ router.get("/:id/edit", isLoggedIn, wrapAsync(async (req, res) => {
 
  router.delete("/:id",isLoggedIn,wrapAsync(listingController.destroy));
 
-
+// GET listings by category
+router.get("/category/:category", async (req, res) => {
+    const { category } = req.params;
+    try {
+      const listings = await Listing.find({ category: category });
+      res.json(listings);
+    } catch (err) {
+      console.error("Error fetching listings by category:", err);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+  
 module.exports=router;
