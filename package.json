@@ -1,6 +1,6 @@
 {
   "engines": {
-    "node": "18.17.1"
+    "node":"20.11.1"
   },
   "name": "mproject",
   "version": "1.0.0",
