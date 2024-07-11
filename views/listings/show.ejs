@@ -1,7 +1,7 @@
 
 <%- layout("/layouts/boilerplate") -%>
 <script>
-  const mapToken = "<%=process.env.MAP_TOKEN%>";
+
   const coordinates = JSON.parse("<%-JSON.stringify(listing.geometry.coordinates) %>");
 </script>
 
@@ -93,7 +93,7 @@
   </div>
 </div>
 
-<script>
+<!-- <script>
   mapboxgl.accessToken = mapToken;
   const map = new mapboxgl.Map({
     container: 'map',
@@ -106,4 +106,22 @@
     .setLngLat(coordinates)
     .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(`<p>Exact location will be provided after booking</p>`))
     .addTo(map);
+</script> -->
+
+<script>
+  maptilersdk.config.apiKey = 'Wars20G8uapWIPRAZqLg';
+  const map = new maptilersdk.Map({
+    container: 'map',
+    style: 'streets-v2',
+    center: coordinates, // Assuming 'coordinates' is defined elsewhere in your code
+    zoom: 9
+  });
+
+  const marker = new maptilersdk.Marker({
+    color: 'black',
+    rotation: 0
+  })
+  .setLngLat(coordinates) // Assuming 'coordinates' is defined elsewhere in your code
+  .setPopup(new maptilersdk.Popup({ offset: 25 }).setHTML('<p>Exact location will be provided after booking</p>'))
+  .addTo(map);
 </script>

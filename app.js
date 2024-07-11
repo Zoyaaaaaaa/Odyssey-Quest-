@@ -29,8 +29,8 @@ console.log("MongoDb is successfully connected");
 console.log(err);
 });
 async function main(){
-    //  await mongoose.connect(MONGO_URL);
-   await mongoose.connect(dbUrl);
+     await mongoose.connect(MONGO_URL);
+//    await mongoose.connect(dbUrl);
 }
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"views"));
@@ -52,18 +52,18 @@ app.get("/",(req,res)=>{
        let registereduser=await User.register(fakeUser,"hellocode");
        console.log(registereduser);
     })
-    const store=MongoStore.create({
-        mongoUrl:dbUrl,
-        crypto:{
-            secret:process.env.SECRET,
-        },
-        touchAfter:24*3600,
-    });
-    store.on("error",()=>{
-        console.log("ERROR IN MONGOSTORE!",error);
-    })
+    // const store=MongoStore.create({
+    //     mongoUrl:dbUrl,
+    //     crypto:{
+    //         secret:process.env.SECRET,
+    //     },
+    //     touchAfter:24*3600,
+    // });
+    // store.on("error",()=>{
+    //     console.log("ERROR IN MONGOSTORE!",error);
+    // })
 const sessionOptions={
-    store,
+    // store,
     secret:process.env.SECRET,
     resave:false,
     saveUninitialized:true,
@@ -103,7 +103,7 @@ res.status(500).render("error.ejs",{message});
 
 });
 
-app.listen(6009,()=>{
+app.listen(8080,()=>{
 console.log("Server is listening to port");
 });
 
